@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeFilter } from "../../redux/filtersSlice";
+import { changeFilter } from "../../redux/filters/filterSlice";
 import { useCallback } from "react";
 import debounce from "lodash.debounce";
 import s from "./SearchBox.module.css";
