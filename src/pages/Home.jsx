@@ -1,8 +1,8 @@
 const HomePage = () => {
   return (
     <div>
-      <h1>Welcome to the Phonebook App!</h1>
-      <p>Manage your contacts easily and securely.</p>
+      <h1>Your personal Phonebook</h1>
+      <p>Save your contacts</p>
     </div>
   );
 };

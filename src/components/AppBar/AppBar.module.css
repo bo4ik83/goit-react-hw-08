@@ -7,7 +7,7 @@
 
 .left {
   display: flex;
-  gap: 15px;
+  gap: 25px;
 }
 
 .right {
@@ -17,10 +17,10 @@
 
 a {
   font-weight: bold;
-  color: #333;
+  color: #000000;
   text-decoration: none;
 }
 
 a:hover {
-  color: #007bff;
+  color: #feffff;
 }

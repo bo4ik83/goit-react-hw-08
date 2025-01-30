@@ -4,16 +4,15 @@
   margin: 5px;
   text-align: center;
   font-weight: bold;
-  color: white;
-  background-color: #007bff;
+  background-color: navajowhite;
   border-radius: 5px;
-  text-decoration: none;
+  text-decoration: solid;
 }
 
 .authButton:hover {
-  background-color: #0056b3;
+  background-color: #b35100;
 }
 
 .authButton:active {
-  background-color: #004085;
+  background-color: #688500;
 }

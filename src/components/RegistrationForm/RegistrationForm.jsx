@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import { Link } from 'react-router-dom';
-import styles from './RegistrationForm.module.css';
+import s from './RegistrationForm.module.css';
 
 const registrationSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -25,31 +25,27 @@ const RegistrationForm = () => {
       validationSchema={registrationSchema}
       onSubmit={handleSubmit}
     >
-      <Form className={styles.form}>
-        <label className={styles.label}>
+      <Form className={s.form}>
+        <label className={s.label}>
           Name:
-          <Field className={styles.input} type="text" name="name" />
-          <ErrorMessage className={styles.error} name="name" component="div" />
+          <Field className={s.input} type="text" name="name" />
+          <ErrorMessage className={s.error} name="name" component="div" />
         </label>
-        <label className={styles.label}>
+        <label className={s.label}>
           Email:
-          <Field className={styles.input} type="email" name="email" />
-          <ErrorMessage className={styles.error} name="email" component="div" />
+          <Field className={s.input} type="email" name="email" />
+          <ErrorMessage className={s.error} name="email" component="div" />
         </label>
-        <label className={styles.label}>
+        <label className={s.label}>
           Password:
-          <Field className={styles.input} type="password" name="password" />
-          <ErrorMessage
-            className={styles.error}
-            name="password"
-            component="div"
-          />
+          <Field className={s.input} type="password" name="password" />
+          <ErrorMessage className={s.error} name="password" component="div" />
         </label>
-        <button className={styles.button} type="submit">
+        <button className={s.button} type="submit">
           Register
         </button>
 
-        <p className={styles.link}>
+        <p className={s.link}>
           Already have an account? <Link to="/login">Log in here</Link>.
         </p>
       </Form>
