@@ -3,7 +3,7 @@ import { register, login, logout, refreshUser } from './operations';
 
 const initialState = {
   user: { name: null, email: null },
-  token: localStorage.getItem('token') || null,
+  token: null,
   isLoggedIn: false,
   isRefreshing: false,
 };
@@ -39,7 +39,6 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.rejected, state => {
         state.isRefreshing = false;
-        state.token = null;
       });
   },
 });
