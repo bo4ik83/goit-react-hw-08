@@ -4,6 +4,7 @@ import {
   addContact,
   deleteContact,
 } from '../contacts/operations';
+import { logout } from '../auth/operations';
 
 const initialState = {
   items: [],
@@ -58,7 +59,8 @@ const contactsSlice = createSlice({
           id => id !== action.meta.arg
         );
         state.error = action.payload || 'Failed to delete contact';
-      });
+      })
+      .addCase(logout.fulfilled, () => initialState);
   },
 });
 

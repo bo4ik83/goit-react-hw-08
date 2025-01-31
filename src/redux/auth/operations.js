@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-hot-toast';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 
@@ -21,11 +22,14 @@ export const register = createAsyncThunk(
       setAuthHeader(token);
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.code === 11000
-          ? 'User with this email already exists'
-          : error.response?.data?.message || 'Registration failed';
-      return thunkAPI.rejectWithValue(errorMessage);
+      if (error.response) {
+        toast.error(
+          error.response.data.message || 'This email is already registered'
+        );
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
+      toast.error('An error occurred during registration');
+      return thunkAPI.rejectWithValue('An error occurred during registration');
     }
   }
 );
@@ -40,9 +44,12 @@ export const login = createAsyncThunk(
       setAuthHeader(token);
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || 'Invalid email or password';
-      return thunkAPI.rejectWithValue(errorMessage);
+      if (error.response) {
+        toast.error(error.response.data.message || 'Invalid email or password');
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
+      toast.error('An error occurred during login');
+      return thunkAPI.rejectWithValue('An error occurred during login');
     }
   }
 );
