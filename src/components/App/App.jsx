@@ -1,33 +1,42 @@
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsRefreshing } from '../../redux/auth/selectors';
 import { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
 import { refreshUser } from '../../redux/auth/operations';
-import Layout from '../../components/Layout/Layout';
+import {
+  selectIsRefreshing,
+  selectIsLoggedIn,
+} from '../../redux/auth/selectors';
+import Layout from '../Layout/Layout';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import RestrictedRoute from '../RestrictedRoute/RestrictedRoute';
 import Home from '../../pages/Home';
 import Registration from '../../pages/Registration';
 import Login from '../../pages/Login';
 import Contacts from '../../pages/Contacts';
-import PrivateRoute from '../../components/PrivateRoute/PrivateRoute';
-import RestrictedRoute from '../../components/RestrictedRoute/RestrictedRoute';
-import NotFound from '../../pages/NotFound';
 
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  if (isRefreshing) {
-    return <p>Refreshing user...</p>; // Можно добавить анимацию загрузки
+  useEffect(() => {
+    if (!isRefreshing && isLoggedIn !== null) {
+      setIsAppReady(true);
+    }
+  }, [isRefreshing, isLoggedIn]);
+
+  if (!isAppReady) {
+    return null;
   }
 
-  return (
+  return isRefreshing ? null : (
     <>
-      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -56,8 +65,10 @@ const App = () => {
             }
           />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element="Not Found Such Page" />
       </Routes>
+
+      <Toaster position="top-center" />
     </>
   );
 };

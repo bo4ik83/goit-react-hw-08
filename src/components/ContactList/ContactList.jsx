@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/contacts/operations';
-import selectFilteredContacts from '../../redux/contacts/slice';
+import { selectFilteredContacts } from '../../redux/contacts/selectors';
 import s from './ContactList.module.css';
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const filteredContacts = useSelector(selectFilteredContacts);
+  const filteredContacts = useSelector(selectFilteredContacts) || [];
 
-  if (!filteredContacts.length) {
+  if (filteredContacts.length === 0) {
     return <p className={s.message}>No contacts found.</p>;
   }
 
