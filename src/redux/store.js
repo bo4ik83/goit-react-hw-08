@@ -5,21 +5,25 @@ import authReducer from './auth/slice';
 import contactsReducer from './contacts/slice';
 import filtersReduver from '../redux/filters/slice';
 
-const authPersistConfig = {
+const persistConfig = {
   key: 'auth',
   storage,
   whitelist: ['token'],
 };
 
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+
 export const store = configureStore({
   reducer: {
-    auth: persistReducer(authPersistConfig, authReducer),
+    auth: persistedAuthReducer,
     contacts: contactsReducer,
     filters: filtersReduver,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: false,
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
     }),
 });
 
