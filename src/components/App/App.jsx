@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsRefreshing } from '../../redux/auth/selectors';
+import { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { refreshUser } from '../../redux/auth/operations';
 import Layout from '../../components/Layout/Layout';
@@ -9,23 +11,28 @@ import Login from '../../pages/Login';
 import Contacts from '../../pages/Contacts';
 import PrivateRoute from '../../components/PrivateRoute/PrivateRoute';
 import RestrictedRoute from '../../components/RestrictedRoute/RestrictedRoute';
+import NotFound from '../../pages/NotFound';
 
 const App = () => {
   const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
 
+  if (isRefreshing) {
+    return <p>Refreshing user...</p>; // Можно добавить анимацию загрузки
+  }
+
   return (
-    <Router>
-      {' '}
-      {/* Окружает весь компонент приложения */}
+    <>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route
-            path="/register"
+            path="register"
             element={
               <RestrictedRoute>
                 <Registration />
@@ -33,7 +40,7 @@ const App = () => {
             }
           />
           <Route
-            path="/login"
+            path="login"
             element={
               <RestrictedRoute>
                 <Login />
@@ -41,7 +48,7 @@ const App = () => {
             }
           />
           <Route
-            path="/contacts"
+            path="contacts"
             element={
               <PrivateRoute>
                 <Contacts />
@@ -49,8 +56,9 @@ const App = () => {
             }
           />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
