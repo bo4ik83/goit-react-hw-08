@@ -1,39 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import { refreshUser } from '../../redux/auth/operations';
-import {
-  selectIsRefreshing,
-  selectIsLoggedIn,
-} from '../../redux/auth/selectors';
+import { selectIsRefreshing } from '../../redux/auth/selectors';
 import Layout from '../Layout/Layout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import RestrictedRoute from '../RestrictedRoute/RestrictedRoute';
-import Home from '../../pages/Home';
-import Registration from '../../pages/Registration';
-import Login from '../../pages/Login';
-import Contacts from '../../pages/Contacts';
+
+const Home = lazy(() => import('../../pages/Home'));
+const Contacts = lazy(() => import('../../pages/Contacts'));
+const Registration = lazy(() => import('../../pages/Registration'));
+const Login = lazy(() => import('../../pages/Login'));
 
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!isRefreshing && isLoggedIn !== null) {
-      setIsAppReady(true);
-    }
-  }, [isRefreshing, isLoggedIn]);
-
-  if (!isAppReady) {
-    return null;
-  }
 
   return isRefreshing ? null : (
     <>
