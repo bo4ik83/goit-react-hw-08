@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+import { addContact } from '../../redux/contacts/operations'; // ✅ Импорт из operations.js
 import s from './ContactForm.module.css';
 
 function ContactsForm() {
@@ -31,7 +31,7 @@ function ContactsForm() {
       return;
     }
 
-    dispatch({ id: nanoid(), name, number });
+    dispatch(addContact({ name, number })); // ✅ Вызываем асинхронный экшен
     setFormState({ name: '', number: '' });
   };
 
