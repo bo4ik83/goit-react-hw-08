@@ -1,4 +1,4 @@
-import { useEffect, lazy } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
@@ -8,10 +8,10 @@ import Layout from '../Layout/Layout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import RestrictedRoute from '../RestrictedRoute/RestrictedRoute';
 
-const Home = lazy(() => import('../../pages/Home'));
-const Contacts = lazy(() => import('../../pages/Contacts'));
-const Registration = lazy(() => import('../../pages/Registration'));
-const Login = lazy(() => import('../../pages/Login'));
+const HomePage = lazy(() => import('../../pages/Home'));
+const ContactsPage = lazy(() => import('../../pages/Contacts'));
+const RegistrationPage = lazy(() => import('../../pages/Registration'));
+const LoginPage = lazy(() => import('../../pages/Login'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,15 +22,15 @@ const App = () => {
   }, [dispatch]);
 
   return isRefreshing ? null : (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<HomePage />} />
           <Route
             path="register"
             element={
               <RestrictedRoute>
-                <Registration />
+                <RegistrationPage />
               </RestrictedRoute>
             }
           />
@@ -38,7 +38,7 @@ const App = () => {
             path="login"
             element={
               <RestrictedRoute>
-                <Login />
+                <LoginPage />
               </RestrictedRoute>
             }
           />
@@ -46,7 +46,7 @@ const App = () => {
             path="contacts"
             element={
               <PrivateRoute>
-                <Contacts />
+                <ContactsPage />
               </PrivateRoute>
             }
           />
@@ -55,7 +55,7 @@ const App = () => {
       </Routes>
 
       <Toaster position="top-center" />
-    </>
+    </Suspense>
   );
 };
 
