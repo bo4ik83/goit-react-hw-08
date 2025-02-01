@@ -8,12 +8,15 @@
 button {
   cursor: pointer;
   padding: 5px 10px;
-  background-color: #f8f9fa;
+  background-color: navajowhite;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 button:hover {
-  background-color: #007bff;
-  color: white;
+  background-color: #b35100;
+}
+
+button:active {
+  background-color: #688500;
 }

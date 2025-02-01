@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/contacts/operations'; // ✅ Импорт из operations.js
+import { addContact } from '../../redux/contacts/operations';
 import s from './ContactForm.module.css';
 
 function ContactsForm() {
@@ -31,7 +31,7 @@ function ContactsForm() {
       return;
     }
 
-    dispatch(addContact({ name, number })); // ✅ Вызываем асинхронный экшен
+    dispatch(addContact({ name, number }));
     setFormState({ name: '', number: '' });
   };
 

@@ -1,8 +1,9 @@
 .list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
-  width: 400px;
+  width: fit-content;
+  margin: 0 auto;
   list-style: none;
   padding: 0;
 }
